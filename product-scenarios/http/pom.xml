@@ -20,21 +20,15 @@
 
     <parent>
         <groupId>org.ballerinalang</groupId>
-        <artifactId>ballerina-parent</artifactId>
+        <artifactId>ballerina-scenario-test</artifactId>
         <version>0.990.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ballerina-scenario-test-http</artifactId>
     <name>Ballerina - Scenario HTTP Tests</name>
 
     <dependencies>
-        <dependency>
-            <groupId>org.ballerinalang</groupId>
-            <artifactId>ballerina-integration-test-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.ballerinalang</groupId>
             <artifactId>ballerina-scenario-test-commons</artifactId>
@@ -54,6 +48,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${maven.jacoco.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-it-test-agent</id>

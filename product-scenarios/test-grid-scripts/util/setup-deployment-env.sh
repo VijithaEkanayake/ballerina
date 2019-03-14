@@ -15,15 +15,21 @@
 # specific language governing permissions and limitations
 # under the License.
 
-parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+set -o errexit
+set -o pipefail
+set -o nounset
+
+readonly parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 . ${parent_path}/utils.sh
 
-input_dir=$1
-output_dir=$2
-
-# Read infrastructure.properties content into an associative array
+readonly input_dir=$1
+readonly output_dir=$2
+readonly work_dir=$(pwd)
 declare -A infra_config
 read_property_file "${input_dir}/infrastructure.properties" infra_config
+
+readonly docker_user=${infra_config["dockerhub_ballerina_scenarios_username"]}
+readonly docker_password=${infra_config["dockerhub_ballerina_scenarios_password"]}
 
 # Update kube config to point to the existing cluster
 aws eks update-kubeconfig --name ${cluster_name}
@@ -39,4 +45,3 @@ install_ballerina ${ballerina_version}
 
 # Store namespace to be cleaned up at the end
 echo "NamespacesToCleanup=${custom_namespace}" >> ${output_dir}/infrastructure-cleanup.properties
-
